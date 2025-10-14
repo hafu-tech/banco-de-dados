@@ -41,7 +41,7 @@ email VARCHAR(45) not null,
 senha VARCHAR(45) not null,
 nome_completo VARCHAR(45) not null,
 tipo_usuario VARCHAR(45) not null,
-fk_regiao_usuario int not null,
+fk_regiao_usuario int,
 constraint fk_id_regiao_usuario
 foreign key (fk_regiao_usuario)
 references Regiao(id_regiao)
