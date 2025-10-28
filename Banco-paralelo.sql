@@ -52,7 +52,9 @@ id_comentario int auto_increment,
 titulo varchar(45),
 descricao varchar(250),
 fk_usuario int,
-constraint pkComposta primary key (id_filtro, fk_usuario_filtro)
+constraint pkComposta primary key (id_filtro, fk_usuario_filtro),
+foreign key (fk_usuario)
+references Usuario(id_usuario)
 );
 
 create table Log_historico_usuario(
