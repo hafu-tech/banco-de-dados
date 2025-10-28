@@ -47,9 +47,11 @@ foreign key (fk_regiao_usuario)
 references Regiao(id_regiao)
 );
 
-create table Filtro(
-id_filtro int auto_increment,
-fk_usuario_filtro int,
+create table Comentario(
+id_comentario int auto_increment,
+titulo varchar(45),
+descricao varchar(250),
+fk_usuario int,
 constraint pkComposta primary key (id_filtro, fk_usuario_filtro)
 );
 
