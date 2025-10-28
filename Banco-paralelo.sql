@@ -1,4 +1,3 @@
-drop database hafutech;
 CREATE DATABASE hafutech;
 use hafutech;
 
@@ -47,13 +46,14 @@ references Regiao(id_regiao)
 );
 
 CREATE TABLE Comentario(
-id_comentario INT PRIMARY KEY AUTO_INCREMENT,
+id_comentario INT AUTO_INCREMENT,
 titulo VARCHAR(45),
 descricao VARCHAR(250),
 fk_usuario INT NOT NULL,
 CONSTRAINT fk_usuario_comentario
 FOREIGN KEY (fk_usuario)
-REFERENCES Usuario(id_usuario)
+REFERENCES Usuario(id_usuario),
+constraint pkComposta primary key(id_comentario,fk_usuario)
 );
 
 CREATE TABLE Log_historico_usuario(
@@ -66,5 +66,16 @@ FOREIGN KEY (fk_usuario_log)
 REFERENCES Usuario(id_usuario)
 );
 
-            
-            
+CREATE TABLE Escola (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ano INT NOT NULL,
+    id_municipio INT NOT NULL,
+    id_escola INT NOT NULL,
+    area VARCHAR(100),
+    localizacao VARCHAR(100),
+    rede VARCHAR(100),
+    inse_qtd_alunos INT,
+    valor_inse DOUBLE,
+    inse_classificacao2014 VARCHAR(50),
+	inse_classificacao2015 VARCHAR(50)
+);
