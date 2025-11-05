@@ -2,67 +2,66 @@ CREATE DATABASE hafutech;
 
 USE hafutech;
 
-CREATE TABLE Regiao(
-	id_regiao INT PRIMARY KEY AUTO_INCREMENT,
-	regiao VARCHAR(45) NOT NULL,
-	uf_estado CHAR(2) NOT NULL,
-	cidade VARCHAR(45) NOT NULL,
-	zona VARCHAR(45) NOT NULL,
-	taxa_de_evasao VARCHAR(45) NOT NULL
+CREATE TABLE Empresa(
+	id_empresa INT PRIMARY KEY AUTO_INCREMENT,
+	nome VARCHAR(45) NOT NULL,
+	codigoEmpresa VARCHAR(45) NOT NULL,
+	email VARCHAR(65) NOT NULL,
+	senha VARCHAR(45) NOT NULL
 );
 
-CREATE TABLE Aluno(
-	id_aluno INT PRIMARY KEY AUTO_INCREMENT,
-	ano CHAR(1) NOT NULL,
-	sexo VARCHAR(15) NOT NULL,
-	raca VARCHAR(15) NOT NULL,
-	fk_regiao INT NOT NULL,
-	CONSTRAINT fk_id_regiao
-	FOREIGN KEY (fk_regiao)
-	REFERENCES Regiao(id_regiao)
+CREATE TABLE Notificacao(
+	id_notificacao INT  AUTO_INCREMENT,
+	fk_empresa INT,
+    mensagem TEXT,
+    status VARCHAR(45),
+    data_envio DATETIME,
+    CONSTRAINT fk_notificacao_empresa
+    FOREIGN KEY (fk_empresa)
+    REFERENCES Empresa(id_empresa),
+    CONSTRAINT pkComposta PRIMARY KEY (id_notificacao,fk_empresa)
+    );
+
+CREATE TABLE Log_empresa(
+	id_log_empresa INT AUTO_INCREMENT,
+    titulo VARCHAR(45),
+	data_hora DATETIME DEFAULT CURRENT_TIMESTAMP,
+	descricao TEXT,
+    fk_empresa INT,
+    CONSTRAINT fk_empresa_log
+    FOREIGN KEY (fk_empresa)
+    REFERENCES Empresa(id_empresa),
+    CONSTRAINT pk_composta PRIMARY KEY (id_log_empresa, fk_empresa)
 );
 
-CREATE TABLE Bens(
-	id_bens INT PRIMARY KEY AUTO_INCREMENT,
-	tipo VARCHAR(45) NOT NULL,
-	quantidade INT NOT NULL,
-	fk_aluno INT NOT NULL,
-	CONSTRAINT fk_id_aluno
-	FOREIGN KEY (fk_aluno)
-	REFERENCES Aluno(id_aluno)
-);
 
-CREATE TABLE Usuario(
-	id_usuario INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE Funcionario(
+	id_funcionario INT PRIMARY KEY AUTO_INCREMENT,
 	email VARCHAR(45) NOT NULL,
 	senha VARCHAR(45) NOT NULL,
 	nome_completo VARCHAR(45) NOT NULL,
-	tipo_usuario VARCHAR(45) NOT NULL,
-	fk_regiao_usuario INT,
-	CONSTRAINT fk_id_regiao_usuario
-	FOREIGN KEY (fk_regiao_usuario)
-	REFERENCES Regiao(id_regiao)
+	tipo_usuario VARCHAR(45) ,
+	fk_empresa INT,
+	CONSTRAINT fk_empresa_funcionario
+	FOREIGN KEY (fk_empresa)
+	REFERENCES Empresa(id_empresa)
 );
 
 CREATE TABLE Comentario(
 	id_comentario INT AUTO_INCREMENT,
 	titulo VARCHAR(45),
 	descricao VARCHAR(250),
-	fk_usuario INT NOT NULL,
-	CONSTRAINT fk_usuario_comentario
-	FOREIGN KEY (fk_usuario)
-	REFERENCES Usuario(id_usuario),
-	CONSTRAINT pkComposta PRIMARY KEY(id_comentario,fk_usuario)
+	fk_empresa INT NOT NULL,
+	CONSTRAINT fk_empresa_comentario
+	FOREIGN KEY (fk_empresa)
+	REFERENCES Empresa(id_empresa),
+	CONSTRAINT pkComposta PRIMARY KEY(id_comentario,fk_empresa)
 );
 
-CREATE TABLE Log_historico_usuario(
+CREATE TABLE Log_sistema(
 	id_log_historico INT PRIMARY KEY AUTO_INCREMENT,
-	fk_usuario_log INT NULL,
 	data_hora DATETIME DEFAULT CURRENT_TIMESTAMP,
-	descricao VARCHAR(100),
-	CONSTRAINT fk_usuario_log
-	FOREIGN KEY (fk_usuario_log)
-	REFERENCES Usuario(id_usuario)
+	descricao TEXT
 );
 
 CREATE TABLE Escola(
